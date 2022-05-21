@@ -1,9 +1,10 @@
 // @file store.hpp
 // @author jmpnz
-// #desc class and method definitions for storage layer.
+// @desc class and method definitions for storage layer.
 #include<vector>
 #include<chrono>
 #include<cstdint>
+#include<iostream>
 
 #include "serde.hpp"
 
@@ -78,6 +79,9 @@ class DiskStorage {
     bytes.insert(bytes.end(),value.begin(),value.end());
 
     this->write(bytes);
+  }
+  std::string Get(std::string key) {
+    return "";
   }
   void write(std::vector<uint8_t> data) {
     f_.seekp(write_pos_);

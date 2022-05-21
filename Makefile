@@ -1,5 +1,5 @@
 CXX=clang++
-CPPFLAGS=-g -std=c++20 -Wall -O1 -fpic
+CPPFLAGS=-g -std=c++20 -Wall -Wextra -Wpedantic -O3 -fpic
 
 bin:
-	$(CXX) $(CPPFLAGS) store.cc -o store
+	$(CXX) $(CPPFLAGS) main.cc -o caskdb-demo

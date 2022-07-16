@@ -20,9 +20,11 @@ class Header {
   std::vector<uint8_t> Serialize() {
     std::vector<uint8_t> bytes;
     bytes.reserve(12);
+
     auto ts = serialize_int32(timestamp_);
     auto ks = serialize_int32(key_sz_);
     auto vs = serialize_int32(value_sz_);
+
     bytes.insert(bytes.end(), ts.begin(), ts.end());
     bytes.insert(bytes.end(), ks.begin(), ks.end());
     bytes.insert(bytes.end(), vs.begin(), vs.end());
@@ -31,9 +33,11 @@ class Header {
   }
   void Deserialize(std::vector<uint8_t> bytes) {
     assert(bytes.size() == 12);
+
     std::vector<uint8_t> ts_(bytes.begin(), bytes.begin() + 4);
     std::vector<uint8_t> ks_(bytes.begin() + 4, bytes.begin() + 8);
     std::vector<uint8_t> vs_(bytes.begin() + 8, bytes.end());
+
     timestamp_ = deserialize_int32(ts_);
     key_sz_ = deserialize_int32(ks_);
     value_sz_ = deserialize_int32(vs_);
@@ -56,8 +60,8 @@ template <typename K, typename V>
 class NaiveMapStorage {
  public:
   NaiveMapStorage() : store() {}
-  V get(K key) { return store[key]; }
-  void set(K key, V value) { store[key] = value; }
+  V Get(K key) { return store[key]; }
+  void Set(K key, V value) { store[key] = value; }
 
  private:
   std::unordered_map<K, V> store;
@@ -67,12 +71,15 @@ template <typename K, typename V>
 class DiskStorage {
  public:
   DiskStorage() : filename_("cask.db"), write_pos_(0) {
-    f_.open(filename_, std::ios::binary | std::ios::in | std::ios::app | std::ios::out);
+    f_.open(filename_,
+            std::ios::binary | std::ios::in | std::ios::app | std::ios::out);
     index_ = NaiveMapStorage<K, int32_t>();
   }
   void Set(std::string key, std::string value) {
     auto ts = std::chrono::system_clock::now();
-    auto tsz = std::chrono::duration_cast<std::chrono::seconds>(ts.time_since_epoch()).count();
+    auto tsz =
+        std::chrono::duration_cast<std::chrono::seconds>(ts.time_since_epoch())
+            .count();
 
     auto header = Header(tsz, key.size(), value.size()).Serialize();
     std::vector<uint8_t> bytes;
@@ -81,11 +88,11 @@ class DiskStorage {
     bytes.insert(bytes.end(), value.begin(), value.end());
 
     auto curr_offset = write_pos_;
-    index_.set(key, curr_offset);
+    index_.Set(key, curr_offset);
     write(bytes);
   }
   std::string Get(std::string key) {
-    auto off = index_.get(key);
+    auto off = index_.Get(key);
     auto header = Header();
     std::vector<uint8_t> hdr(kHeaderSize);
 

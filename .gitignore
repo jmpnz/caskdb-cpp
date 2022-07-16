@@ -70,5 +70,8 @@ Temporary Items
 .history/
 
 # Binaries
+bin/*
+obj/**
+
+# Artefacts
 cask.db
-caskdb-demo

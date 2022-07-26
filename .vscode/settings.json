@@ -2,7 +2,9 @@
     "makefile.extensionOutputFolder": "./.vscode",
     "files.associations": {
         "chrono": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "cassert": "cpp"
     },
-    "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools"
+    "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "cmake.configureOnOpen": true
 }

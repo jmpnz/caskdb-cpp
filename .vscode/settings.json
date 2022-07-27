@@ -1,10 +1,15 @@
 {
-    "makefile.extensionOutputFolder": "./.vscode",
+    "editor.detectIndentation": true,
     "files.associations": {
         "chrono": "cpp",
         "istream": "cpp",
-        "cassert": "cpp"
+        "cassert": "cpp",
+        "__tuple": "cpp",
+        "array": "cpp"
+    },
+    "C_Cpp.codeAnalysis.exclude": {
+        "test/doctest.h": true,
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
 }

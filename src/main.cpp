@@ -4,5 +4,5 @@
 
 int main() {
   auto fm = caskdb::FileManager("cask");
-  std::cout << "Hello, caskdb " << fm.FileName() << std::endl;
+  std::cout << "Hello, caskdb " << fm.LogFile() << std::endl;
 }

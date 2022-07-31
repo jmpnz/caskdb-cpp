@@ -21,7 +21,7 @@ struct Header {
    * @brief Construct a new Header object.
    *
    */
-  Header() : ts(0), keySize(0), valSize(0){};
+  explicit Header() : ts(0), keySize(0), valSize(0){};
   /**
    * @brief Construct a new Header object
    *
@@ -29,7 +29,7 @@ struct Header {
    * @param szKeySize
    * @param szValSize
    */
-  Header(int32_t _ts, int32_t szKeySize, int32_t szValSize)
+  explicit Header(int32_t _ts, int32_t szKeySize, int32_t szValSize)
       : ts(_ts), keySize(szKeySize), valSize(szValSize){};
 
   /**

@@ -1,6 +1,10 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
+#include <iostream>
+#include <stdexcept>
+
 #include "doctest.h"
+#include "file_manager.hpp"
 #include "header.hpp"
 #include "index_mem.hpp"
 #include "serde.hpp"
@@ -36,4 +40,16 @@ TEST_CASE("testing in-memory index") {
   CHECK(index.Get(k) == v);
 }
 
-TEST_CASE("benchmark 1 million insert") {}
+TEST_CASE("testing file manager") {
+  auto fm = FileManager("test");
+
+  try {
+    fm = FileManager("test");
+    /* code */
+  } catch (const std::exception& e) {
+    fm.Close();
+    std::cerr << e.what() << '\n';
+  }
+  CHECK(fm.IsOpen() == true);
+  fm.Close();
+}

@@ -5,6 +5,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 namespace caskdb {
 
@@ -32,8 +33,40 @@ FileManager::FileManager(const std::string& file_name) {
   }
 }
 
-std::string FileManager::FileName() { return file_name_; }
+/**
+ * @brief Write a sequence of bytes to the log file.
+ *
+ * @param bytes
+ */
+void Write(std::vector<uint8_t> bytes) {}
 
+/**
+ * @brief Read a sequence of bytes from the log file, starting at offset.
+ *
+ * @param offset
+ * @return std::vector
+ */
+std::vector<uint8_t> Read(size_t offset) {}
+
+/**
+ * @brief Return the underlying log file name.
+ *
+ * @return std::string
+ */
+std::string FileManager::LogFile() { return file_name_; }
+
+/**
+ * @brief Close the underlying log file.
+ *
+ */
 void FileManager::Close() { file_.close(); }
+
+/**
+ * @brief Returns true if the underlying log file is open false otherwise.
+ *
+ * @return true
+ * @return false
+ */
+auto FileManager::IsOpen() -> bool { return file_.is_open(); }
 
 }  // namespace caskdb

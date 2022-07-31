@@ -5,8 +5,8 @@
 
 namespace serde {
 
-// serialize int32_t (4 bytes) by linearly slicing it to 4 octets.
-std::vector<uint8_t> serializeInt32(int32_t x) {
+// Serialize int32_t (4 bytes) by linearly slicing it to 4 octets.
+std::vector<uint8_t> SerializeInt32(int32_t x) {
   auto bytes = std::vector<uint8_t>(4);
 
   bytes[0] = static_cast<uint8_t>(x >> 24 & 0xFF);
@@ -17,15 +17,15 @@ std::vector<uint8_t> serializeInt32(int32_t x) {
   return bytes;
 }
 
-// deserialize int32 by concatenating the octets.
-static inline int32_t deserializeInt32(std::vector<uint8_t> const& bytes) {
+// Deserialize int32 by concatenating the octets.
+static inline int32_t DeserializeInt32(std::vector<uint8_t> const& bytes) {
   assert(bytes.size() == 4);
   return int32_t(bytes.at(0) << 24 | bytes.at(1) << 16 | bytes.at(2) << 8 |
                  bytes.at(3));
 }
 
 // serialize int64 by splitting the 64-bit integer to two equal 32-bit parts.
-std::vector<uint8_t> serializeInt64(int64_t x) {
+std::vector<uint8_t> SerializeInt64(int64_t x) {
   auto bytes = std::vector<uint8_t>(8);
 
   bytes[0] = static_cast<uint8_t>(x >> 56 & 0xff);
@@ -41,7 +41,7 @@ std::vector<uint8_t> serializeInt64(int64_t x) {
 }
 
 // deserialize int32 by concatenating the 2 words.
-static inline int64_t deserializeInt64(std::vector<uint8_t> const& bytes) {
+static inline int64_t DeserializeInt64(std::vector<uint8_t> const& bytes) {
   uint64_t value = static_cast<uint64_t>(bytes[0]) << 56 |
                    static_cast<uint64_t>(bytes[1]) << 48 |
                    static_cast<uint64_t>(bytes[2]) << 40 |

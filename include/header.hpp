@@ -21,29 +21,29 @@ struct Header {
       : ts(_ts), keySize(szKeySize), valSize(szValSize){};
 
   // Serialize a header.
-  std::vector<uint8_t> serialize() {
+  std::vector<uint8_t> Serialize() {
     auto bytes = buffer::Buffer(szHeaderSize);
     // serialize all the struct members.
-    auto tsBytes = serde::serializeInt32(ts);
-    auto szKeyBytes = serde::serializeInt32(keySize);
-    auto szValBytes = serde::serializeInt32(valSize);
+    auto tsBytes = serde::SerializeInt32(ts);
+    auto szKeyBytes = serde::SerializeInt32(keySize);
+    auto szValBytes = serde::SerializeInt32(valSize);
     // append the individual serialized members linearly.
     // this could be improved.
-    bytes.append(tsBytes);
-    bytes.append(szKeyBytes);
-    bytes.append(szValBytes);
+    bytes.Append(tsBytes);
+    bytes.Append(szKeyBytes);
+    bytes.Append(szValBytes);
 
-    return bytes.data();
+    return bytes.Data();
   }
 
   // Deserialize a header.
-  Header deserialize(std::vector<uint8_t> bytes) {
+  Header Deserialize(const std::vector<uint8_t>& bytes) {
     auto ts =
-        serde::deserializeInt32(std::vector(bytes.begin(), bytes.begin() + 4));
-    auto szKeySize = serde::deserializeInt32(
+        serde::DeserializeInt32(std::vector(bytes.begin(), bytes.begin() + 4));
+    auto szKeySize = serde::DeserializeInt32(
         std::vector(bytes.begin() + 4, bytes.begin() + 8));
     auto szValSize =
-        serde::deserializeInt32(std::vector(bytes.begin() + 8, bytes.end()));
+        serde::DeserializeInt32(std::vector(bytes.begin() + 8, bytes.end()));
 
     return Header(ts, szKeySize, szValSize);
   }

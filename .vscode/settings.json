@@ -5,7 +5,8 @@
         "istream": "cpp",
         "cassert": "cpp",
         "__tuple": "cpp",
-        "array": "cpp"
+        "array": "cpp",
+        "fstream": "cpp"
     },
     "C_Cpp.codeAnalysis.exclude": {
         "test/doctest.h": true,

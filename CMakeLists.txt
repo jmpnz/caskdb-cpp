@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.2)
 project(caskdb LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
-# compiler go brr
-add_compile_options(-O3 -fPIC)
+# compiler options
+add_compile_options(-g -fPIC)
 # lots of warnings and errors.
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 
@@ -26,8 +26,4 @@ add_executable(caskdb src/main.cpp)
 target_include_directories(caskdb PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(caskdb libcaskdb)
 
-# build the unit tests
-#add_definitions("-DGTEST_HAS_PTHREAD=0")
-# add_executable(caskdb_test)
-  
 target_link_libraries(libcaskdb ${extra_libs})

@@ -1,5 +1,4 @@
-#ifndef FILE_MANAGER_HPP
-#define FILE_MANAGER_HPP
+#pragma once
 
 #include <fstream>
 #include <memory>
@@ -7,13 +6,18 @@
 
 namespace caskdb {
 
-// File Manager abstracts all file operations.
+/**
+ * @brief FileManager takes care of reading and writing from and to the
+ * underlying log file. Reads and wrties are currently implemented with no
+ * optimizations, various strategies can be implemented such as buffering and
+ * using fixed sized pages for reads and writes.
+ */
 class FileManager {
   std::string file_name_;
   std::fstream file_;
 
  public:
-  FileManager(std::string file_name);
+  FileManager(const std::string& file_name);
   void Read();
   void Write();
   void Close();
@@ -21,5 +25,3 @@ class FileManager {
 };
 
 }  // namespace caskdb
-
-#endif

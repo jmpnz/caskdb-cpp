@@ -1,27 +1,41 @@
-#ifndef BUFFER_HPP
-#define BUFFER_HPP
+#pragma once
+
 #include <vector>
 
-namespace buffer {
+namespace caskdb {
 
-// Buffer wraps an std::vector with buffered operations including appends.
-struct Buffer {
-  // Constructor with capacity
+/**
+ * @brief Buffer extends std::vector with Append operations.
+ */
+class Buffer {
+ public:
+  /**
+   * @brief Construct a new Buffer object with a pre-defined
+   * capacity.
+   * @param cap
+   */
   Buffer(size_t cap) { data_.reserve(cap); }
 
-  // Append a vector to the buffer.
+  /**
+   * @brief Append an std::vector to the underlying.
+   * @param v
+   */
   inline void Append(const std::vector<uint8_t>& v) {
     data_.insert(data_.end(), v.begin(), v.end());
   }
-  // Clear zeroes out a vector for re-use keeping it allocated.
+  /**
+   * @brief Clear the underlying the vector by zeroing its values.
+   */
   inline void Clear() { data_.clear(); }
-  // Data returns the underlying vector.
+  /**
+   * @brief Data returns the underlying vector.
+   *
+   * @return std::vector<uint8_t>
+   */
   inline std::vector<uint8_t> Data() { return data_; }
 
  private:
   std::vector<uint8_t> data_;
 };
 
-}  // namespace buffer
-
-#endif
+}  // namespace caskdb

@@ -1,6 +1,5 @@
-#ifndef HEADER_HPP
-#define HEADER_HPP
-#include <span>
+#pragma once
+
 #include <vector>
 
 #include "buffer.hpp"
@@ -8,21 +7,38 @@
 
 namespace caskdb {
 
-size_t const szHeaderSize = 12;
+/**
+ * @brief kHeaderSize constant stores the size of the header.
+ *
+ */
+size_t const kHeaderSize = 12;
 
 struct Header {
   int32_t ts;
   int32_t keySize;
   int32_t valSize;
-  // Default constructor zeroes all members.
+  /**
+   * @brief Construct a new Header object.
+   *
+   */
   Header() : ts(0), keySize(0), valSize(0){};
-  // Full constructor.
+  /**
+   * @brief Construct a new Header object
+   *
+   * @param _ts
+   * @param szKeySize
+   * @param szValSize
+   */
   Header(int32_t _ts, int32_t szKeySize, int32_t szValSize)
       : ts(_ts), keySize(szKeySize), valSize(szValSize){};
 
-  // Serialize a header.
+  /**
+   * @brief Serialize a header.
+   *
+   * @return std::vector<uint8_t>
+   */
   std::vector<uint8_t> Serialize() {
-    auto bytes = buffer::Buffer(szHeaderSize);
+    auto bytes = Buffer(kHeaderSize);
     // serialize all the struct members.
     auto tsBytes = serde::SerializeInt32(ts);
     auto szKeyBytes = serde::SerializeInt32(keySize);
@@ -36,7 +52,12 @@ struct Header {
     return bytes.Data();
   }
 
-  // Deserialize a header.
+  /**
+   * @brief Deserialize a header.
+   *
+   * @param bytes
+   * @return Header
+   */
   Header Deserialize(const std::vector<uint8_t>& bytes) {
     auto ts =
         serde::DeserializeInt32(std::vector(bytes.begin(), bytes.begin() + 4));
@@ -50,4 +71,3 @@ struct Header {
 };
 
 }  // namespace caskdb
-#endif

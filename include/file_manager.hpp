@@ -14,15 +14,55 @@ namespace caskdb {
  * using fixed sized pages for reads and writes.
  */
 class FileManager {
+  // Filename.
   std::string file_name_;
+  // Stream to write the log file.
   std::fstream file_;
 
  public:
+  /**
+   * @brief Construct a new File Manager object
+   *
+   * @param file_name
+   */
   explicit FileManager(const std::string& file_name);
-  void Read();
-  std::vector<uint8_t> Write();
+
+  ~FileManager() = default;
+
+  /**
+   * @brief Read from offset.
+   *
+   * @param offset
+   * @return std::vector<uint8_t>
+   */
+  std::vector<uint8_t> Read(size_t offset);
+
+  /**
+   * @brief Write bytes to log file.
+   *
+   * @param bytes
+   */
+  void Write(std::vector<uint8_t> bytes);
+
+  /**
+   * @brief Close underlying log file.
+   *
+   */
   void Close();
+
+  /**
+   * @brief Check if log file is open.
+   *
+   * @return true
+   * @return false
+   */
   auto IsOpen() -> bool;
+
+  /**
+   * @brief Return log file name.
+   *
+   * @return std::string
+   */
   std::string LogFile();
 };
 

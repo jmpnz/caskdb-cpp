@@ -46,7 +46,10 @@ void Write(std::vector<uint8_t> bytes) {}
  * @param offset
  * @return std::vector
  */
-std::vector<uint8_t> Read(size_t offset) {}
+std::vector<uint8_t> Read(size_t offset) {
+  std::vector<uint8_t> buf;
+  return buf;
+}
 
 /**
  * @brief Return the underlying log file name.

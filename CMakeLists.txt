@@ -27,3 +27,18 @@ target_include_directories(caskdb PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(caskdb libcaskdb)
 
 target_link_libraries(libcaskdb ${extra_libs})
+
+# setup clang-tidy
+# clang-tidy
+if (NOT DEFINED CLANG_TIDY_BIN)
+    # attempt to find the binary if user did not specify
+    find_program(CLANG_TIDY_BIN
+            NAMES clang-tidy clang-tidy-12)
+endif()
+if ("${CLANG_TIDY_BIN}" STREQUAL "CLANG_TIDY_BIN-NOTFOUND")
+    message(WARNING "casdkdb/main couldn't find clang-tidy.")
+else()
+    # Output compile_commands.json
+    set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+    message(STATUS "caskdb/main found clang-tidy at ${CLANG_TIDY_BIN}")
+endif()

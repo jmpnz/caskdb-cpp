@@ -38,7 +38,7 @@ FileManager::FileManager(const std::string& file_name) {
  *
  * @param bytes
  */
-void Write(std::vector<uint8_t> bytes) {}
+void Write(const std::vector<uint8_t>& bytes) {}
 
 /**
  * @brief Read a sequence of bytes from the log file, starting at offset.

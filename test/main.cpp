@@ -9,16 +9,18 @@
 #include "index_mem.hpp"
 #include "serde.hpp"
 
-using namespace caskdb;
+using caskdb::Buffer, caskdb::FileManager, caskdb::Header;
 
 TEST_CASE("testing int32/int64 serialization") {
-  const int32_t a = 73095146;
-  const int32_t _a = serde::DeserializeInt32(serde::SerializeInt32(a));
+  const int32_t expected_32 = 73095146;
+  const int32_t actual_32 =
+      serde::DeserializeInt32(serde::SerializeInt32(expected_32));
 
-  const int64_t b = 390534043073095146;
-  const int64_t _b = serde::DeserializeInt64(serde::SerializeInt64(b));
-  CHECK(a == _a);
-  CHECK(b == _b);
+  const int64_t expected_64 = 390534043073095146;
+  const int64_t actual_64 =
+      serde::DeserializeInt64(serde::SerializeInt64(expected_64));
+  CHECK(expected_32 == actual_32);
+  CHECK(expected_64 == actual_64);
 }
 
 TEST_CASE("testing header serialization") {
@@ -26,11 +28,11 @@ TEST_CASE("testing header serialization") {
 
   auto bytes = header.Serialize();
   CHECK(bytes.size() == 12);
-  auto _header = Header().Deserialize(bytes);
+  auto header_actual = Header().Deserialize(bytes);
 
-  CHECK(header.ts == _header.ts);
-  CHECK(header.keySize == _header.keySize);
-  CHECK(header.valSize == _header.valSize);
+  CHECK(header.ts == header_actual.ts);
+  CHECK(header.keySize == header_actual.keySize);
+  CHECK(header.valSize == header_actual.valSize);
 }
 
 TEST_CASE("testing in-memory index") {
@@ -44,7 +46,7 @@ TEST_CASE("testing file manager") {
   auto fm = FileManager("test");
 
   try {
-    fm = FileManager("test");
+    auto fm = FileManager("test");
     /* code */
   } catch (const std::exception& e) {
     fm.Close();

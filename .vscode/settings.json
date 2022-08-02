@@ -83,4 +83,10 @@
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
     "cmake.configureOnOpen": true,
+    "doxdocgen.generic.authorName": "jmpnz",
+    "doxdocgen.generic.useGitUserName": true,
+    "doxdocgen.generic.authorEmail": "102270417+jmpnz@users.noreply.github.com",
+    "doxdocgen.file.copyrightTag": [
+        "@copyright Copyright (c) {year}"
+    ]
 }

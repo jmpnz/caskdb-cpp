@@ -1,3 +1,13 @@
+/**
+ * @file header.hpp
+ * @author jmpnz (102270417+jmpnz@users.noreply.github.com)
+ * @brief Header is defined as part of the caskdb file format.
+ * @version 0.1
+ * @date 2022-08-02
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #pragma once
 
 #include <vector>
@@ -17,11 +27,13 @@ struct Header {
   int32_t ts;
   int32_t keySize;
   int32_t valSize;
+
   /**
    * @brief Construct a new Header object.
    *
    */
   explicit Header() : ts(0), keySize(0), valSize(0){};
+
   /**
    * @brief Construct a new Header object
    *

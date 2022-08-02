@@ -1,3 +1,13 @@
+/**
+ * @file index_mem.hpp
+ * @author jmpnz (102270417+jmpnz@users.noreply.github.com)
+ * @brief An in-memory key-value store implemented around an unordered_map.
+ * @version 0.1
+ * @date 2022-08-02
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #pragma once
 
 #include <string>

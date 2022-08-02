@@ -1,3 +1,13 @@
+/**
+ * @file file_manager.hpp
+ * @author jmpnz (102270417+jmpnz@users.noreply.github.com)
+ * @brief FileManager takes care of all on-diks I/O.
+ * @version 0.1
+ * @date 2022-08-02
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #pragma once
 
 #include <fstream>
@@ -35,14 +45,14 @@ class FileManager {
    * @param offset
    * @return std::vector<uint8_t>
    */
-  std::vector<uint8_t> Read(size_t offset);
+  std::vector<uint8_t> Read(size_t offset, size_t length);
 
   /**
    * @brief Write bytes to log file.
    *
    * @param bytes
    */
-  void Write(std::vector<uint8_t> bytes);
+  void Write(const std::vector<uint8_t>& bytes);
 
   /**
    * @brief Close underlying log file.

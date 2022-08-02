@@ -1,3 +1,14 @@
+/**
+ * @file file_manager.cpp
+ * @author jmpnz (102270417+jmpnz@users.noreply.github.com)
+ * @brief This file contains the implementation of FileManager class for
+ * managing log files.
+ * @version 0.1
+ * @date 2022-08-01
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "file_manager.hpp"
 
 #include <fstream>
@@ -38,7 +49,10 @@ FileManager::FileManager(const std::string& file_name) {
  *
  * @param bytes
  */
-void Write(const std::vector<uint8_t>& bytes) {}
+void FileManager::Write(const std::vector<uint8_t>& bytes) {
+  file_.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+  file_.flush();
+}
 
 /**
  * @brief Read a sequence of bytes from the log file, starting at offset.
@@ -46,17 +60,12 @@ void Write(const std::vector<uint8_t>& bytes) {}
  * @param offset
  * @return std::vector
  */
-std::vector<uint8_t> Read(size_t offset) {
-  std::vector<uint8_t> buf;
+std::vector<uint8_t> FileManager::Read(size_t offset, size_t length) {
+  std::vector<uint8_t> buf(length);
+  file_.seekg(offset);
+  file_.read(reinterpret_cast<char*>(buf.data()), length);
   return buf;
 }
-
-/**
- * @brief Return the underlying log file name.
- *
- * @return std::string
- */
-std::string FileManager::LogFile() { return file_name_; }
 
 /**
  * @brief Close the underlying log file.
@@ -71,5 +80,12 @@ void FileManager::Close() { file_.close(); }
  * @return false
  */
 auto FileManager::IsOpen() -> bool { return file_.is_open(); }
+
+/**
+ * @brief Return the underlying log file name.
+ *
+ * @return std::string
+ */
+std::string FileManager::LogFile() { return file_name_; }
 
 }  // namespace caskdb

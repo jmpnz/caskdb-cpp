@@ -1,3 +1,14 @@
+/**
+ * @file serde.hpp
+ * @author jmpnz (102270417+jmpnz@users.noreply.github.com)
+ * @brief This file implements linear binary encoding for int32_t and int64_t
+ * types.
+ * @version 0.1
+ * @date 2022-08-01
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #pragma once
 
 #include <cassert>

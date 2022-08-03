@@ -15,7 +15,7 @@
 #include <cassert>
 #include <vector>
 
-namespace serde {
+namespace caskdb::serde {
 
 /**
  * @brief Serialize int32_t (4 bytes) by linearly slicing it to 4 octets.
@@ -87,4 +87,4 @@ static inline int64_t DeserializeInt64(std::vector<uint8_t> const& bytes) {
   return value;
 }
 
-}  // namespace serde
+}  // namespace caskdb::serde

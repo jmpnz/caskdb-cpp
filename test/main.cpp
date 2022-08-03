@@ -9,8 +9,12 @@
 #include "header.hpp"
 #include "index_mem.hpp"
 #include "serde.hpp"
+#include "utils.hpp"
 
 using caskdb::Buffer, caskdb::FileManager, caskdb::Header;
+
+namespace serde = caskdb::serde;
+namespace utils = caskdb::utilities;
 
 TEST_CASE("testing int32/int64 serialization") {
   const int32_t expected_32 = 73095146;
@@ -81,3 +85,5 @@ TEST_CASE("tesing file manager IO") {
 
   fm.Close();
 }
+
+TEST_CASE("testing current timestamp") { CHECK(utils::TimestampNow() > 0); }

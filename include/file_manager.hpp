@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+#include "index_mem.hpp"
+
 namespace caskdb {
 
 /**

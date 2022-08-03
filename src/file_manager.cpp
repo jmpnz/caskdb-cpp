@@ -50,6 +50,7 @@ FileManager::FileManager(const std::string& file_name) {
  * @param bytes
  */
 void FileManager::Write(const std::vector<uint8_t>& bytes, size_t offset) {
+  // Seek, write and flush.
   file_.seekg(offset);
   file_.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
   file_.flush();

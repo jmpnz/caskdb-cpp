@@ -8,14 +8,19 @@
  * @copyright Copyright (c) 2022
  *
  */
+
 #pragma once
 
 #include <string>
 #include <unordered_map>
 
+#include "entry.hpp"
+
+namespace caskdb {
+
 /**
  * @brief MemIndexMap implements an in-memory index using std::unordered_map.
- *
+ * It maps keys to their Entry metadata.
  */
 class MemIndexMap {
  public:
@@ -25,15 +30,17 @@ class MemIndexMap {
    * @param key
    * @param value
    */
-  void Set(std::string key, std::string value) { index_[key] = value; }
+  void Set(std::string key, Entry value) { index_[key] = value; }
   /**
    * @brief Get a value by its key.
    *
    * @param key
-   * @return std::string
+   * @return caskdb::Entry
    */
-  std::string Get(std::string key) { return index_[key]; }
+  caskdb::Entry Get(std::string key) { return index_[key]; }
 
  private:
-  std::unordered_map<std::string, std::string> index_;
+  std::unordered_map<std::string, caskdb::Entry> index_;
 };
+
+}  // namespace caskdb

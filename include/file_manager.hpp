@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2022
  *
  */
+
 #pragma once
 
 #include <fstream>
@@ -45,14 +46,14 @@ class FileManager {
    * @param offset
    * @return std::vector<uint8_t>
    */
-  std::vector<uint8_t> Read(size_t offset, size_t length);
+  std::vector<uint8_t> Read(size_t length, size_t offset);
 
   /**
    * @brief Write bytes to log file.
    *
    * @param bytes
    */
-  void Write(const std::vector<uint8_t>& bytes);
+  void Write(const std::vector<uint8_t>& bytes, size_t offset);
 
   /**
    * @brief Close underlying log file.

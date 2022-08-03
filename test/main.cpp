@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include "doctest.h"
+#include "entry.hpp"
 #include "file_manager.hpp"
 #include "header.hpp"
 #include "index_mem.hpp"
@@ -36,10 +37,13 @@ TEST_CASE("testing header serialization") {
 }
 
 TEST_CASE("testing in-memory index") {
-  auto index = MemIndexMap();
-  auto [k, v] = std::tie("Alice", "Hello !");
+  auto index = caskdb::MemIndexMap();
+  auto entry = caskdb::Entry(123456, 999, 64);
+  auto [k, v] = std::tie("Alice", entry);
   index.Set(k, v);
-  CHECK(index.Get(k) == v);
+  CHECK(index.Get(k).Timestamp() == v.Timestamp());
+  CHECK(index.Get(k).Position() == v.Position());
+  CHECK(index.Get(k).Size() == v.Size());
 }
 
 TEST_CASE("testing file manager") {
@@ -53,5 +57,27 @@ TEST_CASE("testing file manager") {
     std::cerr << e.what() << '\n';
   }
   CHECK(fm.IsOpen() == true);
+  fm.Close();
+}
+
+TEST_CASE("tesing file manager IO") {
+  auto fm = FileManager("test");
+  // Write 128 bytes of 0xff
+  std::vector<uint8_t> bytes(128, 0xff);
+  fm.Write(bytes, 0);
+  // Write 128 bytes of 0x41
+  std::vector<uint8_t> abytes(128, 0x41);
+  fm.Write(abytes, 128);
+  // Read from offset 0 should be 64,0xff.
+  auto expected_one = fm.Read(64, 0);
+  // Read from offset 128 + 64 should be 64, 0x41.
+  auto expected_two = fm.Read(64, 128 + 64);
+  // actually expected values.
+  auto actual_one = std::vector(bytes.begin(), bytes.begin() + 64);
+  auto actual_two = std::vector(abytes.begin(), abytes.begin() + 64);
+
+  CHECK(expected_one == actual_one);
+  CHECK(expected_two == actual_two);
+
   fm.Close();
 }

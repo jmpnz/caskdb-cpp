@@ -49,7 +49,8 @@ FileManager::FileManager(const std::string& file_name) {
  *
  * @param bytes
  */
-void FileManager::Write(const std::vector<uint8_t>& bytes) {
+void FileManager::Write(const std::vector<uint8_t>& bytes, size_t offset) {
+  file_.seekg(offset);
   file_.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
   file_.flush();
 }
@@ -60,7 +61,7 @@ void FileManager::Write(const std::vector<uint8_t>& bytes) {
  * @param offset
  * @return std::vector
  */
-std::vector<uint8_t> FileManager::Read(size_t offset, size_t length) {
+std::vector<uint8_t> FileManager::Read(size_t length, size_t offset) {
   std::vector<uint8_t> buf(length);
   file_.seekg(offset);
   file_.read(reinterpret_cast<char*>(buf.data()), length);
@@ -71,7 +72,10 @@ std::vector<uint8_t> FileManager::Read(size_t offset, size_t length) {
  * @brief Close the underlying log file.
  *
  */
-void FileManager::Close() { file_.close(); }
+void FileManager::Close() {
+  file_.flush();
+  file_.close();
+}
 
 /**
  * @brief Returns true if the underlying log file is open false otherwise.

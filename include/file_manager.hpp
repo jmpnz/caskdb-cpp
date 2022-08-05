@@ -31,6 +31,7 @@ class FileManager {
   std::string file_name_;
   // Stream to write the log file.
   std::fstream file_;
+  // Last written position.
 
  public:
   /**
@@ -70,6 +71,20 @@ class FileManager {
    * @return false
    */
   auto IsOpen() -> bool;
+
+  /**
+   * @brief Return read cursor offset.
+   *
+   * @return size_t
+   */
+  auto ReadCursorOffset() -> size_t;
+
+  /**
+   * @brief Return write cursor offset.
+   *
+   * @return size_t
+   */
+  auto WriteCursorOffset() -> size_t;
 
   /**
    * @brief Return log file name.

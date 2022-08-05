@@ -87,6 +87,22 @@ void FileManager::Close() {
 auto FileManager::IsOpen() -> bool { return file_.is_open(); }
 
 /**
+ * @brief Return the current offset of the read cursor (i.e position after last
+ * read).
+ *
+ * @return size_t
+ */
+auto FileManager::ReadCursorOffset() -> size_t { return file_.tellg(); }
+
+/**
+ * @brief Return the current offset of the write cursor (i.e position after last
+ * write).
+ *
+ * @return size_t
+ */
+auto FileManager::WriteCursorOffset() -> size_t { return file_.tellg(); }
+
+/**
  * @brief Return the underlying log file name.
  *
  * @return std::string

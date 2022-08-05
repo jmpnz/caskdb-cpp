@@ -28,6 +28,18 @@ class DiskStorage {
   FileManager fm_;
   // In-memory index
   MemIndexMap index_;
+
+ public:
+  /**
+   * @brief Construct a new Disk Storage object
+   *
+   * @param file
+   */
+  explicit DiskStorage(const std::string& file);
+
+  ~DiskStorage() = default;
+
+  void Put(const std::string& key, const std::string& value);
 };
 
 }  // namespace caskdb

@@ -44,7 +44,7 @@ TEST_CASE("testing in-memory index") {
   auto index = caskdb::MemIndexMap();
   auto entry = caskdb::Entry(123456, 999, 64);
   auto [k, v] = std::tie("Alice", entry);
-  index.Set(k, v);
+  index.Put(k, v);
   CHECK(index.Get(k).Timestamp() == v.Timestamp());
   CHECK(index.Get(k).Position() == v.Position());
   CHECK(index.Get(k).Size() == v.Size());

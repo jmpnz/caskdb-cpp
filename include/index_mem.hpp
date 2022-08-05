@@ -30,7 +30,7 @@ class MemIndexMap {
    * @param key
    * @param value
    */
-  void Set(std::string key, Entry value) { index_[key] = value; }
+  void Put(std::string key, Entry value) { index_[key] = value; }
   /**
    * @brief Get a value by its key.
    *

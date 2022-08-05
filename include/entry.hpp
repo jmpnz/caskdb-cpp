@@ -15,8 +15,7 @@ namespace caskdb {
 
 struct Entry {
   Entry() : timestamp_(0), position_(0), size_(0) {}
-  Entry(int64_t ts, int64_t pos, int64_t sz)
-      : timestamp_(ts), position_(pos), size_(sz) {}
+  Entry(int64_t ts, int64_t pos, int64_t sz) : timestamp_(ts), position_(pos), size_(sz) {}
 
   auto Timestamp() -> int64_t { return timestamp_; }
   auto Position() -> int64_t { return position_; }

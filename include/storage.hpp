@@ -13,7 +13,6 @@
 
 #include "file_manager.hpp"
 #include "index_mem.hpp"
-#include "utils.hpp"
 
 namespace caskdb {
 /**
@@ -39,7 +38,28 @@ class DiskStorage {
 
   ~DiskStorage() = default;
 
+  /**
+   * @brief Store a key-value pair on the on-disk log structured hash-table.
+   *
+   * @param key
+   * @param value
+   */
   void Put(const std::string& key, const std::string& value);
+
+  /**
+   * @brief Get a value from the on-disk log structured hash-table given its
+   * key.
+   *
+   * @param key
+   * @return std::string
+   */
+  std::string Get(const std::string& key);
+
+  /**
+   * @brief Close and free undelying resource.
+   *
+   */
+  void Close();
 };
 
 }  // namespace caskdb

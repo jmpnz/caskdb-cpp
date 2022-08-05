@@ -34,10 +34,23 @@ class Buffer {
   inline void Append(const std::vector<uint8_t>& v) {
     data_.insert(data_.end(), v.begin(), v.end());
   }
+
+  /**
+   * @brief Append a const char* to the underlying.
+   *
+   * @param v
+   * @param length
+   */
+  inline void Append(const char* v, size_t length) {
+    std::vector<uint8_t> v_(v, v + length);
+    data_.insert(data_.end(), v_.begin(), v_.end());
+  }
+
   /**
    * @brief Clear the underlying the vector by zeroing its values.
    */
   inline void Clear() { data_.clear(); }
+
   /**
    * @brief Data returns the underlying vector.
    *

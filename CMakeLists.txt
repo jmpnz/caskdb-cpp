@@ -8,21 +8,19 @@ add_compile_options(-g -fPIC)
 # lots of warnings and errors.
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 
-include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories("${PROJECT_SOURCE_DIR}/include")
-include_directories("${PROJECT_SOURCE_DIR}/test")
-add_subdirectory(src)
+add_subdirectory("${PROJECT_SOURCE_DIR}/src")
 
 # build the test executable
 find_package(doctest REQUIRED)
 
 # Make test executable
-add_executable(test test/main.cpp src/file_manager.cpp) 
+add_executable(test test/main.cpp src/serde.cpp src/file_manager.cpp src/storage.cpp) 
 target_compile_features(test PRIVATE cxx_std_17)
 target_link_libraries(test PRIVATE doctest::doctest)# build the main caskdb executable
 
 # build the binary
-add_executable(caskdb src/main.cpp)
+add_executable(caskdb src/main.cpp src/serde.cpp src/file_manager.cpp src/storage.cpp)
 target_include_directories(caskdb PUBLIC "${PROJECT_SOURCE_DIR}/include")
 target_link_libraries(caskdb libcaskdb)
 

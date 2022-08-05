@@ -16,8 +16,6 @@
 #include <string>
 #include <vector>
 
-#include "index_mem.hpp"
-
 namespace caskdb {
 
 /**
@@ -49,14 +47,14 @@ class FileManager {
    * @param offset
    * @return std::vector<uint8_t>
    */
-  std::vector<uint8_t> Read(size_t length, size_t offset);
+  std::vector<uint8_t> Read(size_t offset, size_t length);
 
   /**
    * @brief Write bytes to log file.
    *
    * @param bytes
    */
-  void Write(const std::vector<uint8_t>& bytes, size_t offset);
+  void Write(const std::vector<uint8_t>& bytes);
 
   /**
    * @brief Close underlying log file.

@@ -27,17 +27,14 @@ namespace caskdb {
  */
 FileManager::FileManager(const std::string& file_name) {
   file_name_ = file_name + ".log";
-  file_.open(file_name_,
-             std::ios::in | std::ios::out | std::ios::app | std::ios::binary);
+  file_.open(file_name_, std::ios::in | std::ios::out | std::ios::app | std::ios::binary);
   if (!file_.is_open()) {
     // if the file doesn't exist, create a new one.
     file_.clear();
-    file_.open(file_name_, std::ios::binary | std::ios::trunc | std::ios::app |
-                               std::ios::out);
+    file_.open(file_name_, std::ios::binary | std::ios::trunc | std::ios::app | std::ios::out);
     file_.close();
     // re-open the file with the original mode.
-    file_.open(file_name_,
-               std::ios::binary | std::ios::in | std::ios::app | std::ios::out);
+    file_.open(file_name_, std::ios::binary | std::ios::in | std::ios::app | std::ios::out);
     if (!file_.is_open()) {
       throw std::runtime_error("Invalid operation, file could not be opened.");
     }
@@ -49,9 +46,8 @@ FileManager::FileManager(const std::string& file_name) {
  *
  * @param bytes
  */
-void FileManager::Write(const std::vector<uint8_t>& bytes, size_t offset) {
+void FileManager::Write(const std::vector<uint8_t>& bytes) {
   // Seek, write and flush.
-  file_.seekg(offset);
   file_.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
   file_.flush();
 }
@@ -62,7 +58,7 @@ void FileManager::Write(const std::vector<uint8_t>& bytes, size_t offset) {
  * @param offset
  * @return std::vector
  */
-std::vector<uint8_t> FileManager::Read(size_t length, size_t offset) {
+std::vector<uint8_t> FileManager::Read(size_t offset, size_t length) {
   std::vector<uint8_t> buf(length);
   file_.seekg(offset);
   file_.read(reinterpret_cast<char*>(buf.data()), length);
@@ -100,7 +96,7 @@ auto FileManager::ReadCursorOffset() -> size_t { return file_.tellg(); }
  *
  * @return size_t
  */
-auto FileManager::WriteCursorOffset() -> size_t { return file_.tellg(); }
+auto FileManager::WriteCursorOffset() -> size_t { return file_.tellp(); }
 
 /**
  * @brief Return the underlying log file name.

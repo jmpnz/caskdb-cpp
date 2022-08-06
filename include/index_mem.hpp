@@ -13,6 +13,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <optional>
 
 #include "entry.hpp"
 
@@ -34,15 +35,16 @@ class MemIndexMap {
   /**
    * @brief Get a value by its key, if the key is not in the map the null entry
    * is returned, see kNullEntry.
+   * todo(jmpnz): replace with std::optional.
    *
    * @param key
    * @return caskdb::Entry
    */
-  caskdb::Entry Get(std::string key) {
+  std::optional<caskdb::Entry> Get(std::string key) {
     if (index_.contains(key)) {
       return index_[key];
     }
-    return kNullEntry; 
+    return {}; 
   }
 
  private:

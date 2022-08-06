@@ -63,10 +63,11 @@ void DiskStorage::Put(const std::string& key, const std::string& value) {
  * @return std::string
  */
 std::string DiskStorage::Get(const std::string& key) {
-  auto entry = index_.Get(key);
-  if (entry.IsNull()) {
+  auto maybe_entry = index_.Get(key);
+  if (!maybe_entry.has_value()) {
     return "" ;
   }
+  auto entry = maybe_entry.value();
   auto bytes = fm_.Read(entry.Position(), entry.Size());
   auto header_bytes = std::vector<uint8_t>(bytes.begin(), bytes.begin() + kHeaderSize);
   auto hdr = Header().Deserialize(header_bytes);

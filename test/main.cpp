@@ -40,9 +40,10 @@ TEST_CASE("testing in-memory index") {
   auto entry = caskdb::Entry(123456, 999, 64);
   auto [k, v] = std::tie("Alice", entry);
   index.Put(k, v);
-  CHECK(index.Get(k).Timestamp() == v.Timestamp());
-  CHECK(index.Get(k).Position() == v.Position());
-  CHECK(index.Get(k).Size() == v.Size());
+  auto val = index.Get(k).value();
+  CHECK(val.Timestamp() == v.Timestamp());
+  CHECK(val.Position() == v.Position());
+  CHECK(val.Size() == v.Size());
 }
 
 TEST_CASE("testing file manager") {

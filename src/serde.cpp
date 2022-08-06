@@ -39,7 +39,7 @@ std::vector<uint8_t> SerializeInt32(int32_t x) {
  */
 int32_t DeserializeInt32(std::vector<uint8_t> const& bytes) {
   assert(bytes.size() == 4);
-  return int32_t(bytes.at(0) << 24 | bytes.at(1) << 16 | bytes.at(2) << 8 | bytes.at(3));
+  return (bytes.at(0) << 24 | bytes.at(1) << 16 | bytes.at(2) << 8 | bytes.at(3));
 }
 
 /**

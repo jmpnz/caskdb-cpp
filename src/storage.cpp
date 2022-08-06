@@ -57,13 +57,16 @@ void DiskStorage::Put(const std::string& key, const std::string& value) {
 
 /**
  * @brief Fetch a value from the on-disk log-structured hash table given its
- * key.
+ * key, if the key is not in the database return the empty string.
  *
  * @param key
  * @return std::string
  */
 std::string DiskStorage::Get(const std::string& key) {
   auto entry = index_.Get(key);
+  if (entry.IsNull()) {
+    return "" ;
+  }
   auto bytes = fm_.Read(entry.Position(), entry.Size());
   auto header_bytes = std::vector<uint8_t>(bytes.begin(), bytes.begin() + kHeaderSize);
   auto hdr = Header().Deserialize(header_bytes);

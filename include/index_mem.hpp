@@ -32,12 +32,18 @@ class MemIndexMap {
    */
   void Put(std::string key, Entry value) { index_[key] = value; }
   /**
-   * @brief Get a value by its key.
+   * @brief Get a value by its key, if the key is not in the map the null entry
+   * is returned, see kNullEntry.
    *
    * @param key
    * @return caskdb::Entry
    */
-  caskdb::Entry Get(std::string key) { return index_[key]; }
+  caskdb::Entry Get(std::string key) {
+    if (index_.contains(key)) {
+      return index_[key];
+    }
+    return kNullEntry; 
+  }
 
  private:
   std::unordered_map<std::string, caskdb::Entry> index_;

@@ -98,3 +98,16 @@ TEST_CASE("testing on-disk storage") {
 
   db.Close();
 }
+
+TEST_CASE("testing on-disk storage null entries") {
+  auto [k1,v1] = std::make_tuple<std::string, std::string>(
+    "Aloha", "Bonjour"
+  );
+
+  auto db = caskdb::DiskStorage("test3");
+  
+  db.Put(k1, v1);
+
+  CHECK(db.Get("Bonjour") == "");
+  CHECK(db.Get(k1) == v1);
+}

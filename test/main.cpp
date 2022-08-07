@@ -60,7 +60,14 @@ TEST_CASE("testing file manager") {
   fm.Close();
 }
 
-TEST_CASE("tesing file manager IO") {
+TEST_CASE("testing file manager default") {
+  auto fm = FileManager();
+  CHECK(fm.IsOpen() == true);
+  CHECK(fm.LogFile() == caskdb::kDefaultLogFileName);
+  fm.Close();
+}
+
+TEST_CASE("testing file manager IO") {
   auto fm = FileManager("test");
   // Write 128 bytes of 0xff
   std::vector<uint8_t> bytes(128, 0xff);
@@ -83,10 +90,8 @@ TEST_CASE("tesing file manager IO") {
 }
 
 TEST_CASE("testing on-disk storage") {
-  auto [k1, v1] = std::make_tuple<std::string, std::string>(
-      "A", "1");
-  auto [k2, v2] = std::make_tuple<std::string, std::string>(
-      "B", "2");
+  auto [k1, v1] = std::make_tuple<std::string, std::string>("A", "1");
+  auto [k2, v2] = std::make_tuple<std::string, std::string>("B", "2");
 
   auto db = caskdb::DiskStorage("test2");
 
@@ -94,21 +99,31 @@ TEST_CASE("testing on-disk storage") {
 
   db.Put(k2, v2);
 
-  CHECK(db.Get(k1)==v1);
-  CHECK(db.Get(k2)== v2);
+  CHECK(db.Get(k1) == v1);
+  CHECK(db.Get(k2) == v2);
 
   db.Close();
 }
 
 TEST_CASE("testing on-disk storage null entries") {
-  auto [k1,v1] = std::make_tuple<std::string, std::string>(
-    "Aloha", "Bonjour"
-  );
+  auto [k1, v1] = std::make_tuple<std::string, std::string>("Aloha", "Bonjour");
 
   auto db = caskdb::DiskStorage("test3");
-  
+
   db.Put(k1, v1);
 
   CHECK(db.Get("Bonjour") == "");
   CHECK(db.Get(k1) == v1);
+}
+
+TEST_CASE("testing on-disk storage multiple entries") {
+  auto db = caskdb::DiskStorage("test4");
+
+  for (auto i = 0; i < 128; i++) {
+    auto [k, v] = std::make_tuple<std::string, std::string>(
+        "Aloce Me Baggio" + std::to_string(i),
+        "Essential Operations are Essentials");
+    db.Put(k, v);
+    CHECK(db.Get(k) == v);
+  }
 }

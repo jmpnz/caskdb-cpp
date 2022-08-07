@@ -9,6 +9,7 @@
  * @copyright Copyright (c) 2022
  *
  */
+
 #include "file_manager.hpp"
 
 #include <fstream>
@@ -27,14 +28,30 @@ namespace caskdb {
  */
 FileManager::FileManager(const std::string& file_name) {
   file_name_ = file_name + ".log";
-  file_.open(file_name_, std::ios::in | std::ios::out | std::ios::app | std::ios::binary);
+  file_.open(file_name_, kDefaultFileMode);
   if (!file_.is_open()) {
     // if the file doesn't exist, create a new one.
     file_.clear();
-    file_.open(file_name_, std::ios::binary | std::ios::trunc | std::ios::app | std::ios::out);
+    file_.open(file_name_, kDefaultNewFileMode);
     file_.close();
     // re-open the file with the original mode.
-    file_.open(file_name_, std::ios::binary | std::ios::in | std::ios::app | std::ios::out);
+    file_.open(file_name_, kDefaultFileMode);
+    if (!file_.is_open()) {
+      throw std::runtime_error("Invalid operation, file could not be opened.");
+    }
+  }
+}
+
+FileManager::FileManager() {
+  file_name_ = kDefaultLogFileName;
+  file_.open(file_name_, kDefaultFileMode);
+  if (!file_.is_open()) {
+    // if the file doesn't exist, create a new one.
+    file_.clear();
+    file_.open(file_name_, kDefaultNewFileMode);
+    file_.close();
+    // re-open the file with the original mode.
+    file_.open(file_name_, kDefaultFileMode);
     if (!file_.is_open()) {
       throw std::runtime_error("Invalid operation, file could not be opened.");
     }

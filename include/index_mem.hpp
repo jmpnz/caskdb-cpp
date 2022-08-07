@@ -11,9 +11,9 @@
 
 #pragma once
 
+#include <optional>
 #include <string>
 #include <unordered_map>
-#include <optional>
 
 #include "entry.hpp"
 
@@ -32,10 +32,10 @@ class MemIndexMap {
    * @param value
    */
   void Put(std::string key, Entry value) { index_[key] = value; }
+
   /**
    * @brief Get a value by its key, if the key is not in the map the null entry
    * is returned, see kNullEntry.
-   * todo(jmpnz): replace with std::optional.
    *
    * @param key
    * @return caskdb::Entry
@@ -44,7 +44,7 @@ class MemIndexMap {
     if (index_.contains(key)) {
       return index_[key];
     }
-    return {}; 
+    return {};
   }
 
  private:

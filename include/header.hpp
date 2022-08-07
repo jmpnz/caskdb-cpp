@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2022
  *
  */
+
 #pragma once
 
 #include <vector>
@@ -71,9 +72,12 @@ struct Header {
    * @return Header
    */
   Header Deserialize(const std::vector<uint8_t>& bytes) {
-    auto ts = serde::DeserializeInt32(std::vector(bytes.begin(), bytes.begin() + 4));
-    auto szKeySize = serde::DeserializeInt32(std::vector(bytes.begin() + 4, bytes.begin() + 8));
-    auto szValSize = serde::DeserializeInt32(std::vector(bytes.begin() + 8, bytes.end()));
+    auto ts =
+        serde::DeserializeInt32(std::vector(bytes.begin(), bytes.begin() + 4));
+    auto szKeySize = serde::DeserializeInt32(
+        std::vector(bytes.begin() + 4, bytes.begin() + 8));
+    auto szValSize =
+        serde::DeserializeInt32(std::vector(bytes.begin() + 8, bytes.end()));
 
     return Header(ts, szKeySize, szValSize);
   }

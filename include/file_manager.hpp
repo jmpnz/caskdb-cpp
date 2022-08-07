@@ -19,10 +19,36 @@
 namespace caskdb {
 
 /**
+ * @brief kDefaultLogFileName is the default log file name if no filename is
+ * passed.
+ *
+ */
+static constexpr char kDefaultLogFileName[] = "caskette.log";
+
+/**
+ * @brief kDefaultFileMode is the mode used to open the log file.
+ *
+ */
+static constexpr uint kDefaultFileMode =
+    std::ios::in | std::ios::out | std::ios::app | std::ios::binary;
+
+/**
+ * @brief kDefaultNewFileMode is the mode used to create a new log file.
+ *
+ */
+static constexpr uint kDefaultNewFileMode =
+    std::ios::binary | std::ios::trunc | std::ios::app | std::ios::out;
+
+/**
+ * @brief kLogFileMagic is a 4 bytes fixed size header used to identify
+ * log files.
+ */
+
+/**
  * @brief FileManager takes care of reading and writing from and to the
  * underlying log file. Reads and writes are currently implemented with no
- * optimizations, various strategies can be implemented such as buffering and
- * using fixed sized pages for reads and writes.
+ * optimizations, various strategies can be implemented such as buffering
+ * and using fixed sized pages for reads and writes.
  */
 class FileManager {
   // Filename.
@@ -38,6 +64,8 @@ class FileManager {
    * @param file_name
    */
   explicit FileManager(const std::string& file_name);
+
+  explicit FileManager();
 
   ~FileManager() = default;
 

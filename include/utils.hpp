@@ -19,6 +19,11 @@ namespace caskdb {
 using std::chrono::duration_cast, std::chrono::seconds,
     std::chrono::system_clock;
 
+/**
+ * @brief Return the current time in Unix epoch format (in seconds).
+ *
+ * @return int64_t
+ */
 inline int64_t TimestampNow() {
   return duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
 }

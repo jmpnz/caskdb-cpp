@@ -62,9 +62,18 @@ TEST_CASE("testing file manager") {
 
 TEST_CASE("testing file manager default") {
   auto fm = FileManager();
+
+  // Check that we properly opened a default log file.
   CHECK(fm.IsOpen() == true);
-  CHECK(fm.LogFile() == caskdb::kDefaultLogFileName);
-  fm.Close();
+  CHECK(fm.LogFile() == caskdb::kDefaultLogFileName + ".log");
+
+  auto fm2 = std::move(fm);
+
+  // Check that we properly opened a default log file.
+  CHECK(fm2.IsOpen() == true);
+  CHECK(fm2.LogFile() == caskdb::kDefaultLogFileName + ".log");
+
+  fm2.Close();
 }
 
 TEST_CASE("testing file manager IO") {

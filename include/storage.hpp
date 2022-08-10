@@ -39,6 +39,20 @@ class DiskStorage {
   ~DiskStorage() = default;
 
   /**
+   * @brief Prevent copying DiskStorage.
+   *
+   */
+  DiskStorage(const DiskStorage& other) = delete;
+  DiskStorage operator=(const DiskStorage& other) = delete;
+
+  /**
+   * @brief Enforce the default move constructor for DiskStorage type.
+   *
+   */
+  DiskStorage(DiskStorage&& other) = default;
+  DiskStorage& operator=(DiskStorage&& other) = default;
+
+  /**
    * @brief Store a key-value pair on the on-disk log structured hash-table.
    *
    * @param key

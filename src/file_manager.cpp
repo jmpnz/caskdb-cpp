@@ -42,21 +42,12 @@ FileManager::FileManager(const std::string& file_name) {
   }
 }
 
-FileManager::FileManager() {
-  file_name_ = kDefaultLogFileName;
-  file_.open(file_name_, kDefaultFileMode);
-  if (!file_.is_open()) {
-    // if the file doesn't exist, create a new one.
-    file_.clear();
-    file_.open(file_name_, kDefaultNewFileMode);
-    file_.close();
-    // re-open the file with the original mode.
-    file_.open(file_name_, kDefaultFileMode);
-    if (!file_.is_open()) {
-      throw std::runtime_error("Invalid operation, file could not be opened.");
-    }
-  }
-}
+/**
+ * @brief Implement the default constructor for a new File Manager:: File
+ * Manager object
+ *
+ */
+FileManager::FileManager() : FileManager(kDefaultLogFileName) {}
 
 /**
  * @brief Write a sequence of bytes to the log file.

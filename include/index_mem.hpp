@@ -11,9 +11,9 @@
 
 #pragma once
 
+#include <map>
 #include <optional>
 #include <string>
-#include <unordered_map>
 
 #include "entry.hpp"
 
@@ -48,7 +48,7 @@ class MemIndexMap {
   }
 
  private:
-  std::unordered_map<std::string, caskdb::Entry> index_;
+  std::map<std::string, caskdb::Entry> index_;
 };
 
 }  // namespace caskdb

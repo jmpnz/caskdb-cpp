@@ -23,7 +23,7 @@ namespace caskdb {
  * passed.
  *
  */
-static constexpr char kDefaultLogFileName[] = "caskette.log";
+static const std::string kDefaultLogFileName = "caskette";
 
 /**
  * @brief kDefaultFileMode is the mode used to open the log file.
@@ -43,6 +43,7 @@ static constexpr uint kDefaultNewFileMode =
  * @brief kLogFileMagic is a 4 bytes fixed size header used to identify
  * log files.
  */
+static constexpr uint8_t kLogFileMagic[4] = {0x4c, 0x64, 74, 69};
 
 /**
  * @brief FileManager takes care of reading and writing from and to the
@@ -66,6 +67,23 @@ class FileManager {
   explicit FileManager(const std::string& file_name);
 
   explicit FileManager();
+
+  /**
+   * @brief Prevent FileManager from being copied
+   *
+   * @param other
+   */
+  FileManager(const FileManager& other) = delete;
+  FileManager& operator=(const FileManager& other) = delete;
+
+  /**
+   * @brief Enforce default move constructor for the FileManager.
+   * Since both members are default types that implement the move constructor
+   * we don't need to be explicit.
+   * @param other
+   */
+  FileManager(FileManager&& other) = default;
+  FileManager& operator=(FileManager&& other) = default;
 
   ~FileManager() = default;
 

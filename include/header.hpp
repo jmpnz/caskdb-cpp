@@ -22,7 +22,7 @@ namespace caskdb {
  * @brief kHeaderSize constant stores the size of the header.
  *
  */
-size_t const kHeaderSize = 12;
+const size_t kHeaderSize = 12;
 
 struct Header {
   int32_t ts;

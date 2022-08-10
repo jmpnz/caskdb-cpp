@@ -15,13 +15,49 @@
 namespace caskdb {
 
 struct Entry {
+  /**
+   * @brief Construct a new Entry object
+   *
+   */
   Entry() : timestamp_(0), position_(0), size_(0) {}
+
+  /**
+   * @brief Construct a new Entry object
+   *
+   * @param ts
+   * @param pos
+   * @param sz
+   */
   Entry(int64_t ts, int64_t pos, int64_t sz)
       : timestamp_(ts), position_(pos), size_(sz) {}
 
+  /**
+   * @brief Return entry timestamp.
+   *
+   * @return int64_t
+   */
   auto Timestamp() -> int64_t { return timestamp_; }
+
+  /**
+   * @brief  Return entry position in the file.
+   *
+   * @return int64_t
+   */
   auto Position() -> int64_t { return position_; }
+
+  /**
+   * @brief Return entry data size in bytes.
+   *
+   * @return int64_t
+   */
   auto Size() -> int64_t { return size_; }
+
+  /**
+   * @brief Return true if the entry is Null.
+   *
+   * @return true
+   * @return false
+   */
   auto IsNull() -> bool { return (size_ == -1 && position_ == -1); }
 
  private:

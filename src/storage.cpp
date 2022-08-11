@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 
+#include "crc32.hpp"
 #include "entry.hpp"
 #include "header.hpp"
 #include "serde.hpp"
@@ -39,18 +40,26 @@ DiskStorage::DiskStorage(const std::string& file_name)
  */
 void DiskStorage::Put(const std::string& key, const std::string& value) {
   // Build header metadata.
-  auto [ts, k_size, v_size] = std::make_tuple(TimestampNow(), key.length(), value.length());
+  auto [ts, k_size, v_size] =
+      std::make_tuple(TimestampNow(), key.length(), value.length());
   // Build the index Entry
-  Entry entry = Entry(ts, fm_.WriteCursorOffset(), kHeaderSize + k_size + v_size);
+  Entry entry = Entry(ts, fm_.WriteCursorOffset(),
+                      kChecksumSize + kHeaderSize + k_size + v_size);
   // Store the entry in the index
   index_.Put(key, entry);
   // Build the value header
   Header hdr = Header(ts, k_size, v_size);
   // Buffer
-  Buffer buf(kHeaderSize + k_size + v_size);
+  Buffer buf(kChecksumSize + kHeaderSize + k_size + v_size);
   buf.Append(hdr.Serialize());
   buf.Append(key.data(), key.size());
   buf.Append(value.data(), value.size());
+  // Compute CRC32 checksum over the header and the key-value data.
+  auto csum = CRC32(buf.Data().data(), buf.Data().size());
+  auto checksum = serde::SerializeUint32(csum);
+  // Insert the CRC32 checksum at the front of the buffer to write.
+  buf.InsertFront(reinterpret_cast<const char*>(checksum.data()),
+                  kChecksumSize);
   // Write the buffer.
   fm_.Write(buf.Data());
 }
@@ -65,13 +74,16 @@ void DiskStorage::Put(const std::string& key, const std::string& value) {
 std::string DiskStorage::Get(const std::string& key) {
   auto maybe_entry = index_.Get(key);
   if (!maybe_entry.has_value()) {
-    return "" ;
+    return "";
   }
   auto entry = maybe_entry.value();
   auto bytes = fm_.Read(entry.Position(), entry.Size());
-  auto header_bytes = std::vector<uint8_t>(bytes.begin(), bytes.begin() + kHeaderSize);
+  auto header_bytes =
+      std::vector<uint8_t>(bytes.begin() + kChecksumSize,
+                           bytes.begin() + kChecksumSize + kHeaderSize);
   auto hdr = Header().Deserialize(header_bytes);
-  auto val_bytes = std::vector<uint8_t>(bytes.begin() + kHeaderSize + hdr.keySize, bytes.end());
+  auto val_bytes = std::vector<uint8_t>(
+      bytes.begin() + kChecksumSize + kHeaderSize + hdr.keySize, bytes.end());
   std::string val(val_bytes.begin(), val_bytes.end());
   return val;
 }

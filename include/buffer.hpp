@@ -46,6 +46,11 @@ class Buffer {
     data_.insert(data_.end(), v_.begin(), v_.end());
   }
 
+  inline void InsertFront(const char* v, size_t length) {
+    std::vector<uint8_t> v_(v, v + length);
+    data_.insert(data_.begin(), v_.begin(), v_.end());
+  }
+
   /**
    * @brief Clear the underlying the vector by zeroing its values.
    */

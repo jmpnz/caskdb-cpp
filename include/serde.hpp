@@ -87,4 +87,21 @@ inline int64_t DeserializeInt64(std::vector<uint8_t> const& bytes) {
   return value;
 }
 
+/**
+ * @brief Serialize unt32_t (4 bytes) by linearly slicing it to 4 octets.
+ *
+ * @param x
+ * @return std::vector<uint8_t>
+ */
+inline std::vector<uint8_t> SerializeUint32(uint32_t x) {
+  auto bytes = std::vector<uint8_t>(4);
+
+  bytes[0] = static_cast<uint8_t>(x >> 24 & 0xFF);
+  bytes[1] = static_cast<uint8_t>(x >> 16 & 0xFF);
+  bytes[2] = static_cast<uint8_t>(x >> 8 & 0xFF);
+  bytes[3] = static_cast<uint8_t>(x & 0xFF);
+
+  return bytes;
+}
+
 }  // namespace caskdb::serde

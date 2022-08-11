@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "crc32.hpp"
 #include "doctest.h"
 #include "entry.hpp"
 #include "header.hpp"
@@ -135,4 +136,13 @@ TEST_CASE("testing on-disk storage multiple entries") {
     db.Put(k, v);
     CHECK(db.Get(k) == v);
   }
+}
+
+TEST_CASE("testing crc32 checksums") {
+  uint8_t message[4] = {0x56, 0x76, 0x84, 0x98};
+  uint32_t expected = 0x3E65DDB9;
+
+  auto checksum = CRC32(message, sizeof(message));
+
+  CHECK(checksum == expected);
 }

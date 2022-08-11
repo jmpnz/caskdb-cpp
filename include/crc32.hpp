@@ -2,6 +2,8 @@
  * @file crc32.hpp
  * @author jmpnz (102270417+jmpnz@users.noreply.github.com)
  * @brief Implementation of CRC32 for log file entry validation.
+ * The implementation is taken as is from Wikipedia, using the memoized CRC32
+ * tables from Microsoft CRC32 page.
  * @version 0.1
  * @date 2022-08-11
  *
@@ -13,6 +15,8 @@
 
 #include <cstddef>
 #include <cstdint>
+
+namespace caskdb {
 
 /**
  * @brief Checksum size in bytes.
@@ -89,3 +93,5 @@ inline uint32_t CRC32(const uint8_t* data, size_t length) {
 
   return crc32;
 }
+
+}  // namespace caskdb

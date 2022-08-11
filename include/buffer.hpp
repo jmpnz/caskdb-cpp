@@ -21,6 +21,26 @@ namespace caskdb {
 class Buffer {
  public:
   /**
+   * @brief Construct a new empty Buffer object.
+   *
+   */
+  Buffer() : data_() {}
+
+  /**
+   * @brief Construct a new Buffer object from std::vector<uint8_t>
+   *
+   * @param data
+   */
+  Buffer(std::vector<uint8_t> data) : data_(data) {}
+
+  /**
+   * @brief Construct a new Buffer object from const char*
+   *
+   * @param data
+   */
+  Buffer(const char* data, size_t length) : data_(data, data + length) {}
+
+  /**
    * @brief Construct a new Buffer object with a pre-defined
    * capacity.
    * @param cap
@@ -42,13 +62,11 @@ class Buffer {
    * @param length
    */
   inline void Append(const char* v, size_t length) {
-    std::vector<uint8_t> v_(v, v + length);
-    data_.insert(data_.end(), v_.begin(), v_.end());
+    data_.insert(data_.end(), v, v + length);
   }
 
-  inline void InsertFront(const char* v, size_t length) {
-    std::vector<uint8_t> v_(v, v + length);
-    data_.insert(data_.begin(), v_.begin(), v_.end());
+  inline void InsertFront(const std::vector<uint8_t>& v) {
+    data_.insert(data_.begin(), v.begin(), v.end());
   }
 
   /**
@@ -62,6 +80,13 @@ class Buffer {
    * @return std::vector<uint8_t>
    */
   inline std::vector<uint8_t> Data() { return data_; }
+
+  /**
+   * @brief Return the underlying data contained in the vector.
+   *
+   * @return uint8_t*
+   */
+  inline const uint8_t* data() { return data_.data(); }
 
  private:
   std::vector<uint8_t> data_;

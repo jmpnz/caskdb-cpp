@@ -20,7 +20,7 @@
 namespace caskdb {
 
 /**
- * @brief MemIndexMap implements an in-memory index using std::unordered_map.
+ * @brief MemIndexMap implements an in-memory index using std::map.
  * It maps keys to their Entry metadata.
  */
 class MemIndexMap {
@@ -31,14 +31,13 @@ class MemIndexMap {
    * @param key
    * @param value
    */
-  void Put(std::string key, Entry value) { index_[key] = value; }
+  void Put(std::string key, Entry value) { index_.emplace(key, value); }
 
   /**
-   * @brief Get a value by its key, if the key is not in the map the null entry
-   * is returned, see kNullEntry.
-   *
+   * @brief Get a value by its key, if the key is not in the map returns an
+   * empty value.
    * @param key
-   * @return caskdb::Entry
+   * @return std::optional<caskdb::Entry>
    */
   std::optional<caskdb::Entry> Get(std::string key) {
     if (index_.contains(key)) {

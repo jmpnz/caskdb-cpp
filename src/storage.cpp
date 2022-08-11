@@ -55,11 +55,10 @@ void DiskStorage::Put(const std::string& key, const std::string& value) {
   buf.Append(key.data(), key.size());
   buf.Append(value.data(), value.size());
   // Compute CRC32 checksum over the header and the key-value data.
-  auto csum = CRC32(buf.Data().data(), buf.Data().size());
+  auto csum = CRC32(buf.data(), buf.Data().size());
   auto checksum = serde::SerializeUint32(csum);
   // Insert the CRC32 checksum at the front of the buffer to write.
-  buf.InsertFront(reinterpret_cast<const char*>(checksum.data()),
-                  kChecksumSize);
+  buf.InsertFront(checksum);
   // Write the buffer.
   fm_.Write(buf.Data());
 }

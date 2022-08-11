@@ -142,7 +142,7 @@ TEST_CASE("testing crc32 checksums") {
   uint8_t message[4] = {0x56, 0x76, 0x84, 0x98};
   uint32_t expected = 0x3E65DDB9;
 
-  auto checksum = CRC32(message, sizeof(message));
+  auto checksum = caskdb::CRC32(message, sizeof(message));
 
   CHECK(checksum == expected);
 }

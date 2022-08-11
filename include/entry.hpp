@@ -72,6 +72,6 @@ struct Entry {
  * using pointers and dealing with null down the line.
  * The null entry has size and position set to -1.
  */
-static Entry kNullEntry = Entry(0, -1, -1);
+static const Entry kNullEntry = Entry(0, -1, -1);
 
 }  // namespace caskdb

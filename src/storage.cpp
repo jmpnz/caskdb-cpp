@@ -12,6 +12,7 @@
 
 #include "storage.hpp"
 
+#include <cassert>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -77,6 +78,13 @@ std::string DiskStorage::Get(const std::string& key) {
   }
   auto entry = maybe_entry.value();
   auto bytes = fm_.Read(entry.Position(), entry.Size());
+  auto data = std::vector<uint8_t>(bytes.begin() + kChecksumSize, bytes.end());
+  auto checksum_bytes =
+      std::vector<uint8_t>(bytes.begin(), bytes.begin() + kChecksumSize);
+
+  assert(CRC32(data.data(), data.size()) ==
+         serde::DeserializeUint32(checksum_bytes));
+
   auto header_bytes =
       std::vector<uint8_t>(bytes.begin() + kChecksumSize,
                            bytes.begin() + kChecksumSize + kHeaderSize);

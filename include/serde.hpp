@@ -104,4 +104,16 @@ inline std::vector<uint8_t> SerializeUint32(uint32_t x) {
   return bytes;
 }
 
+/**
+ * @brief Deserialize uint32_t by concatenating the octets.
+ *
+ * @param bytes
+ * @return uint32_t
+ */
+inline uint32_t DeserializeUint32(std::vector<uint8_t> const& bytes) {
+  assert(bytes.size() == 4);
+  return (bytes.at(0) << 24 | bytes.at(1) << 16 | bytes.at(2) << 8 |
+          bytes.at(3));
+}
+
 }  // namespace caskdb::serde

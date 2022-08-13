@@ -1,6 +1,6 @@
 # Cask-db
 
-Caskdb is a C++17 implementation of [bitcask](https://riak.com/assets/bitcask-intro.pdf)
+Caskdb is a C++20 implementation of [bitcask](https://riak.com/assets/bitcask-intro.pdf)
 with iterative improvements.
 
 ## How it works
@@ -14,7 +14,7 @@ value.
 
 ## Usage
 
-**Note** : Caskdb uses various C++17 features such as `std::optional` so you will need a C++17
+**Note** : Caskdb uses various C++20 features such as `std::optional` so you will need a C++20
 compliant compiler.
 
 ```sh

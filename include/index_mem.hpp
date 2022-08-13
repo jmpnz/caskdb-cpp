@@ -22,11 +22,13 @@ namespace caskdb {
 /**
  * @brief MemIndexMap implements an in-memory index using std::map.
  * It maps keys to their Entry metadata.
+ * In the bitcask paper this is called a "keydir".
  */
 class MemIndexMap {
  public:
   /**
-   * @brief Store a key and value.
+   * @brief Store a key and value, if a key, value exists it will be
+   * overwritten.
    *
    * @param key
    * @param value

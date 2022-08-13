@@ -14,6 +14,13 @@
 
 namespace caskdb {
 
+/**
+ * @brief Entry is a fixed size structure representing the latest on-disk
+ * position of a value.
+ * todo(jmpnz): add support for "file_id" or "segment_id"
+ * todo(jmpnz): replace "position" with physical offset of the value
+ * todo(jmpnz): replace "sz" with the size of the value itself
+ */
 struct Entry {
   /**
    * @brief Construct a new Entry object

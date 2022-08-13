@@ -44,8 +44,13 @@ void DiskStorage::Put(const std::string& key, const std::string& value) {
   auto [ts, k_size, v_size] =
       std::make_tuple(TimestampNow(), key.length(), value.length());
   // Build the index Entry
-  Entry entry = Entry(ts, fm_.WriteCursorOffset(),
-                      kChecksumSize + kHeaderSize + k_size + v_size);
+  // todo(jmpnz): Position should be writeCursor + Checksum Size + Header Size +
+  // Key Size i.e should be offset of the value itself (directly).
+  // todo(jmpnz): Size should be the value size, my disk IO should be
+  // paged but avoid large "serialization" OPs.
+  Entry entry =
+      Entry(ts, fm_.WriteCursorOffset() + kChecksumSize + kHeaderSize + k_size,
+            v_size);
   // Store the entry in the index
   index_.Put(key, entry);
   // Build the value header
@@ -77,20 +82,7 @@ std::string DiskStorage::Get(const std::string& key) {
     return "";
   }
   auto entry = maybe_entry.value();
-  auto bytes = fm_.Read(entry.Position(), entry.Size());
-  auto data = std::vector<uint8_t>(bytes.begin() + kChecksumSize, bytes.end());
-  auto checksum_bytes =
-      std::vector<uint8_t>(bytes.begin(), bytes.begin() + kChecksumSize);
-
-  assert(CRC32(data.data(), data.size()) ==
-         serde::DeserializeUint32(checksum_bytes));
-
-  auto header_bytes =
-      std::vector<uint8_t>(bytes.begin() + kChecksumSize,
-                           bytes.begin() + kChecksumSize + kHeaderSize);
-  auto hdr = Header().Deserialize(header_bytes);
-  auto val_bytes = std::vector<uint8_t>(
-      bytes.begin() + kChecksumSize + kHeaderSize + hdr.keySize, bytes.end());
+  auto val_bytes = fm_.Read(entry.Position(), entry.Size());
   std::string val(val_bytes.begin(), val_bytes.end());
   return val;
 }

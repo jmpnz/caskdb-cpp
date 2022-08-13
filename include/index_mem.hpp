@@ -1,7 +1,7 @@
 /**
  * @file index_mem.hpp
  * @author jmpnz (102270417+jmpnz@users.noreply.github.com)
- * @brief An in-memory key-value store implemented around an unordered_map.
+ * @brief An in-memory key-value store implemented using std::map.
  * @version 0.1
  * @date 2022-08-02
  *
@@ -48,6 +48,10 @@ class MemIndexMap {
     return {};
   }
 
+  /**
+   * @brief In-memory index using std::map as an MVP.
+   *
+   */
  private:
   std::map<std::string, caskdb::Entry> index_;
 };

@@ -44,6 +44,7 @@ Checks:     '
             -modernize-use-default-member-init,
             -modernize-use-trailing-return-type,
             -modernize-return-braced-init-list,
+            -performance-move-const-arg,
             -readability-convert-member-functions-to-static,
             -readability-identifier-length,
             -readability-function-cognitive-complexity,

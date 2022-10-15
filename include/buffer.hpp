@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <utility>
 #include <vector>
 
 namespace caskdb {
@@ -24,14 +25,14 @@ class Buffer {
    * @brief Construct a new empty Buffer object.
    *
    */
-  Buffer() : data_() {}
+  Buffer() = default;
 
   /**
    * @brief Construct a new Buffer object from std::vector<uint8_t>
    *
    * @param data
    */
-  Buffer(std::vector<uint8_t> data) : data_(data) {}
+  explicit Buffer(std::vector<uint8_t> data) : data_(std::move(data)) {}
 
   /**
    * @brief Construct a new Buffer object from const char*
@@ -45,7 +46,7 @@ class Buffer {
    * capacity.
    * @param cap
    */
-  Buffer(size_t cap) { data_.reserve(cap); }
+  explicit Buffer(size_t cap) { data_.reserve(cap); }
 
   /**
    * @brief Append an std::vector to the underlying.
@@ -80,13 +81,6 @@ class Buffer {
    * @return std::vector<uint8_t>
    */
   inline std::vector<uint8_t> Data() { return data_; }
-
-  /**
-   * @brief Return the underlying data contained in the vector.
-   *
-   * @return uint8_t*
-   */
-  inline const uint8_t* data() { return data_.data(); }
 
  private:
   std::vector<uint8_t> data_;

@@ -22,7 +22,7 @@ namespace caskdb {
  * @brief kHeaderSize constant stores the size of the header.
  *
  */
-const size_t HEADER_SIZE = 12;
+static constexpr size_t kHeaderSize = 12;
 
 struct Header {
   int32_t ts_;
@@ -51,7 +51,7 @@ struct Header {
    * @return std::vector<uint8_t>
    */
   std::vector<uint8_t> Serialize() {
-    auto bytes = Buffer(HEADER_SIZE);
+    auto bytes = Buffer(kHeaderSize);
     // serialize all the struct members.
     auto ts_bytes = serde::SerializeInt32(ts_);
     auto sz_key_bytes = serde::SerializeInt32(key_size_);

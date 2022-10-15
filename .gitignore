@@ -77,3 +77,4 @@ build/**
 # Artefacts
 cask.db
 TODO.md
+.cache/*

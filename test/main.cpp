@@ -31,9 +31,9 @@ TEST_CASE("testing header serialization") {
   CHECK(bytes.size() == 12);
   auto header_actual = Header().Deserialize(bytes);
 
-  CHECK(header.ts == header_actual.ts);
-  CHECK(header.keySize == header_actual.keySize);
-  CHECK(header.valSize == header_actual.valSize);
+  CHECK(header.ts_ == header_actual.ts_);
+  CHECK(header.key_size_ == header_actual.key_size_);
+  CHECK(header.val_size_ == header_actual.val_size_);
 }
 
 TEST_CASE("testing in-memory index") {

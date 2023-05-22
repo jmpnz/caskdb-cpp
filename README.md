@@ -1,7 +1,6 @@
 # Cask-db
 
 Caskdb is a C++20 implementation of [bitcask](https://riak.com/assets/bitcask-intro.pdf)
-with iterative improvements.
 
 ## How it works
 
@@ -11,6 +10,9 @@ is an append-only log while hash table points to the data storage interface (key
 When a key, value pair is stored the key is indexed in an in-memory hashmap, the entries stored
 in-memory store all metadata that allows fetching the serialized on-disk bytes representing the
 value.
+
+Because re-indexing everytime is costly this can be improved with an on-disk hint file that can
+be used to re-built the index at runtime.
 
 ## Usage
 
